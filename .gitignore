@@ -1,3 +1,12 @@
+# Intellij
+# *.iml
+# modules.xml
+.idea
+/out/
+
+# WordCount Application
+output/
+
 # Compiled class file
 *.class
 

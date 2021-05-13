@@ -21,6 +21,16 @@ public class WordCount {
         private final static IntWritable one = new IntWritable(1);
         private Text word = new Text();
 
+        /**
+         * processes one line at a time, as provided by the specified TextInputFormat
+         * it then splits the line into tokens separeted by whitespaces, via the StringTokenizer
+         * and finally, emits a key-value pair of <word, 1>
+         * @param key
+         * @param value
+         * @param context
+         * @throws IOException
+         * @throws InterruptedException
+         */
         public void map(Object key, Text value, Context context
         ) throws IOException, InterruptedException {
             StringTokenizer itr = new StringTokenizer(value.toString());
@@ -35,6 +45,15 @@ public class WordCount {
             extends Reducer<Text,IntWritable,Text,IntWritable> {
         private IntWritable result = new IntWritable();
 
+        /**
+         * just sums up the values
+         * which are the occurrence counts for each key
+         * @param key
+         * @param values
+         * @param context
+         * @throws IOException
+         * @throws InterruptedException
+         */
         public void reduce(Text key, Iterable<IntWritable> values,
                            Context context
         ) throws IOException, InterruptedException {
@@ -47,6 +66,12 @@ public class WordCount {
         }
     }
 
+    /**
+     * specifies various facets of the job, such as the input/output paths, key/value types, input/output formats etc.
+     * then calls the job.waitForCompletion to submit the job and monitor its progress
+     * @param args
+     * @throws Exception
+     */
     public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();
         Job job = Job.getInstance(conf, "word count");
